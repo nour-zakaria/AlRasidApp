@@ -10,12 +10,27 @@ import {
 } from "react-native";
 import { Image as ReactImage } from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-
+import DeviceStorge from '../Service/DeviceStorge'
 export default class First extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      id :''
+    };
   }
+  async AssignedUser () {
+  await DeviceStorge.getToken("userid").then((userId) => { this.setState({id:userId}) ;console.log(this.state.id) })
+if(this.state.id != null){
+  this.props.navigation.navigate('Map')
+}
+else {
+  this.props.navigation.navigate('Login')
+}
+}
+
+
+
+
 
   render() {
     return (
@@ -36,7 +51,7 @@ export default class First extends React.Component {
 
         <TouchableOpacity   style={styles.button1}
           onPress={() =>
-            this.props.navigation.navigate('Login')
+            this.props.navigation.navigate('LoginAdmin')
 
           }>
           <Text style={styles.text1} > تسجيل الدخول كموظف</Text>
@@ -44,7 +59,7 @@ export default class First extends React.Component {
 
         <TouchableOpacity  elevation={5} style={styles.button2}
           onPress={() =>
-            this.props.navigation.navigate('Dash')
+            this.AssignedUser()
           }>
           <Text style={styles.text2}  > تسجيل الدخول لرفع بلاغ   </Text>
         </TouchableOpacity>

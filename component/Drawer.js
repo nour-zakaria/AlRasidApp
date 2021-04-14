@@ -8,16 +8,18 @@ import {
   Image
 } from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-
+import DeviceStorge from '../Service/DeviceStorge'
 
 const menuData = [
-  { icon: require ('../Image/profile.png'), name: "حسابي", screenName: "Home", key: 1 },
-  { icon: require ('../Image/ticket.png'), name: "التذاكر", screenName: "About", key: 2 },
+  { icon: require ('../Image/profile.png'), name: "حسابي", screenName: "Profile", key: 1 },
+  { icon: require ('../Image/ticket.png'), name: "التذاكر", screenName: "TicketUser", key: 2 },
   { icon: require ('../Image/help.png'), name: "مساعدة",screenName: "Contact", key: 3 } ,
-  { icon: require ('../Image/logout.png'), name: "تسجيل خروج",screenName: "Contact", key: 4}
+  { icon: require ('../Image/logout.png'), name: "تسجيل خروج",screenName: "logout", key: 4}
 ];
 
+
 class Drawer extends Component {
+
   render() {
     return (
       <View style={styles.container}>
@@ -37,13 +39,23 @@ class Drawer extends Component {
     );
   }
 }
-
+const logout = async ()=> {
+  await DeviceStorge.deleteToken("userid").then((data) => { console.log(data) })  
+        await DeviceStorge.deleteToken("idnumber").then((data) => { console.log(data) })  
+        await DeviceStorge.deleteToken("username").then((data) => { console.log(data) }) 
+}
 const DrawerItem = ({ navigation, icon, name, screenName }) => (
   <TouchableOpacity
     style={styles.menuItem}
-    onPress={() =>
+    onPress={() => {if (screenName == "logout" ){
+      logout();
+      navigation.navigate('AppNavigator')
+    }
+    else{
       navigation.navigate(`${screenName}`, { isStatusBarHidden: false })
     }
+     
+    }}
   >
     <Image source={icon}  color="#333" style={{ margin: 20 }} />
     <Text style={styles.menuItemText}>{name}</Text>

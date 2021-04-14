@@ -1,12 +1,29 @@
-import React, { useState } from 'react'
+import React, { useState ,useEffect } from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground, ScrollView, TextInput } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { KeyboardAvoidingScrollView } from 'react-native-keyboard-avoiding-scroll-view';
-import Textarea from 'react-native-textarea';
-export default function TicketInfo2({ navigation }) {
+import DeviceStorge from '../Service/DeviceStorge'
+export default function TicketNotAssign ({ navigation }) {
 
-    const [counts, changes] = useState('رقم الهويه/هوية مقيم');
-    const [phone, setPhone] = useState('');
+    const [forword, isforword] = useState('');
+    const [des, setdescription] = useState('');
+
+
+
+    useEffect(() => {
+
+        const data1 = navigation.getParam("dest", 'NO-User'); 
+       const data2 = navigation.getParam("Description", 'NO-User'); 
+       setdescription(data1)
+       isforword(data2)
+     
+
+
+    }, [])
+
+
+
+
 
     return (
         <KeyboardAvoidingScrollView
@@ -16,10 +33,14 @@ export default function TicketInfo2({ navigation }) {
                     backgroundColor: '#3C7E66', width: wp('100%'), height: hp('20%'),
 
                 }}>
+ <TouchableOpacity style = {{ left: wp('10%'),  top: hp('5%'), height: hp("4%"), width: wp("8%"),}} 
+  onPress={() => navigation.toggleDrawer() }>
+ <Image source={require('../Image/menu2.png')} style={styles.menu} />
+       
+       </TouchableOpacity>
 
 
-
-                    <Image source={require('../Image/back.png')} style={styles.menu} />
+                   
 
                     <View style={{
                         width: wp('11%'),
@@ -39,7 +60,9 @@ export default function TicketInfo2({ navigation }) {
                             height: hp('7%'),
                             borderRadius: wp('10%'),
 
-                        }}>
+                        }}
+                        onPress={()=> navigation.navigate('TicketUser')}
+                        >
                             <Image source={require('../Image/backL.png')} style={styles.back} />
                         </TouchableOpacity>
                     </View>
@@ -61,7 +84,7 @@ export default function TicketInfo2({ navigation }) {
                         <Text style = {{fontSize:wp('3.5%'),fontFamily : 'Cairo-Black', color:'#7D7B7B' , top: hp('0.57%') , left : wp('6%')}}>الاولوية :متوسطة</Text>
                        <View style = {{ flex: 1,flexDirection: "row",flexWrap: "wrap",  top: hp('2%') , left : wp('5%')}}>
                         <Text  style = {{fontSize:wp('3.5%'),fontFamily : 'Cairo-Black', color:'#7D7B7B'}}> الحالة :</Text>
-                        <Text  style = {{fontSize:wp('3.5%'),fontFamily : 'Cairo-Black', color:'#0BD38A'}}>تم الاصلاح</Text>
+                        <Text  style = {{fontSize:wp('3.5%'),fontFamily : 'Cairo-Black', color:'red'}}> مستبعدة</Text>
                          </View>
                     </View>
                     </View>
@@ -70,33 +93,18 @@ export default function TicketInfo2({ navigation }) {
                   </View>
                 
                   <View style = {styles.v2}>
-                      <Text style = {styles.text2}>الجهة :وزارة التعليم-فرع القنفذة</Text>
+                      <Text style = {styles.text2}>الجهة : {forword} </Text>
                   </View>
                   <View style = {styles.v3}>
                       <Text style = {styles.text2}> الموقع</Text>
                   </View>
                   <View style = {styles.v4}>
                       <Text style = {styles.text2}> الوصف</Text>
-                      <Text style = {styles.text2}> حائط</Text>
+                      <Text style = {styles.text2}> {des}</Text>
                   </View>
                   
                   
-                    <View style={{ bottom: wp('60%') }}>
-                            <TouchableOpacity
-                                style={styles.button2}
-                                onPress={() => this.props.navigation.navigate('Signup')}>
-                            
-                                <Text style={styles.textbtn}> تعديل </Text>
-                            </TouchableOpacity>
-                            </View>
-                            <View style={{ bottom: wp('60%') }}>
-                            <TouchableOpacity
-                                style={styles.button1}
-                                onPress={() => this.props.navigation.navigate('Signup')}>
-                            
-                                <Text style={styles.textbtn}> حذف </Text>
-                            </TouchableOpacity>
-                            </View>
+                  
 
                 </View>
 
@@ -140,10 +148,9 @@ const styles = StyleSheet.create({
 
     },
     menu: {
-        left: wp('10%'),
-        top: hp('5%'),
-        height: hp("4%"),
-        width: wp("5%"),
+       
+        height: hp("5%"),
+        width: wp("7%"),
 
 
     },

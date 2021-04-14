@@ -3,9 +3,8 @@ import { View, Text, StyleSheet, Image, TouchableOpacity, ScrollView } from 'rea
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import OutlineInput from 'react-native-outline-input';
 import Spinner from 'react-native-loading-spinner-overlay';
-import DeviceStorge from '../Service/DeviceStorge'
 import { ConfirmDialog } from 'react-native-simple-dialogs';
-export default function Login({ navigation }) {
+export default function LoginAdmin({ navigation }) {
 
 
 
@@ -33,12 +32,12 @@ export default function Login({ navigation }) {
         }
         if (!id) {
             isValid = false;
-            errors.id = "لم تدخل رقم الهوية بعد  "; } 
-             else if (id.length != 10) {
+            errors.id = "لم تدخل رقم الهوية بعد  ";
+        }  else if (id.length != 10) {
             isValid = false;
             errors.id ="ؤقم الهوية يجب ان يتكون من 10 ارقام"
           } 
-        
+
 
         setEror(errors)
         return isValid;
@@ -46,12 +45,12 @@ export default function Login({ navigation }) {
 
     const signin = async () => {
    
-       if(validateForm()) {
+        if(validateForm()){
         setIsLoading(true)
 
 
         try {
-            const response = await fetch("http://127.0.0.1:8889/login", {
+            fetch("http://127.0.0.1:8889/login", {
                 method: "POST",
                 headers: {
                     Accept: "application/json",
@@ -59,35 +58,31 @@ export default function Login({ navigation }) {
                 },
                 body: JSON.stringify({
 
-                    idNumber: id,
+                    email: id,
                     password: pass
 
                 })
-            })
-            const res = await response.json()
-            console.log("upload succes", res);
-            setPass(''); setID('');
-                    console.log("upload succes", res.result[0][0]);
-                    await DeviceStorge.storeToken("userid" ,res.result[0][0])
-                    await DeviceStorge.storeToken("idnumber" , Number(res.result[0][2]))
-                    await DeviceStorge.storeToken("username" ,res.result[0][1])
-                    
-                    console.log("upload succes", res);
+            }).then(res => {
+                setIsLoading(false)
+                res.json()
+                      setPass(''); setID('');
+                    navigation.navigate('TicketAdmin')
+                    console.log("upload succes", res);}
+            )
+                .catch(res => {
                     setIsLoading(false)
-                    navigation.navigate('Map');
-                  
-                   
-               
+                    setdialogVisible(true)
+                })
 
         } catch (error) {
-            console.log(error);
+            setIsLoading(false)
             setPass(''); setID('');
 
             setdialogVisible(true)
-            setIsLoading(false)
         }
     }
-       
+    setPass(''); setID('');
+        setIsLoading(false)
 
     }
 
@@ -161,9 +156,9 @@ activeLabelColor= "rgba(196,196,196,1)"
                                 height: hp('10%')
                             }}>
 
-                                <TouchableOpacity
+                                {/* <TouchableOpacity
                                     style={styles.button2}
-                                    onPress={() => navigation.navigate('Register')}>
+                                    onPress={() => this.props.navigation.navigate('Signup')}>
 
                                     <Text style={styles.text2}>  تسجيل جديد</Text>
                                 </TouchableOpacity>
@@ -171,7 +166,7 @@ activeLabelColor= "rgba(196,196,196,1)"
 
 
 
-                                <Text style={styles.text3}>  ليس لديك حساب ؟ </Text>
+                                <Text style={styles.text3}>  ليس لديك حساب ؟ </Text> */}
 
                             </View>
 
