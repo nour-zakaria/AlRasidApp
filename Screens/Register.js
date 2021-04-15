@@ -94,7 +94,7 @@ export default function Register({ navigation }) {
           },
           body: JSON.stringify({
             name: name,
-            idNumber: id,
+            idNumber: parseInt(id),
             phoneNumber: mobile,
             email: email,
             password: pass
@@ -121,6 +121,7 @@ export default function Register({ navigation }) {
 
       }
       catch (error) {
+        setIsLoading(false)
         setName(''); setPass(''); setID(''); setMobile(''); setEmail('');
         setdialogVisible(true)
       }

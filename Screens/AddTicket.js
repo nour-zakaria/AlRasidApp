@@ -60,7 +60,7 @@ export default function AddTicket({ navigation }) {
   
               description: Desc,
               image: base64,
-              reportBy:id,
+              reportBy:parseInt(id),
               affectedFacility: affect,
                 agency:parseInt(key2),
                 buildingType:parseInt(key1)
