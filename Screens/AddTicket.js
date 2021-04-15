@@ -1,6 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity, Modal, Image, ImageBackground, ScrollView, TextInput, Picker } from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import * as ImagePicker from "react-native-image-picker"
 import Spinner from 'react-native-loading-spinner-overlay';
 import DeviceStorge from '../Service/DeviceStorge'
@@ -28,7 +28,7 @@ export default function AddTicket({ navigation }) {
   const [affect, setaffect] = useState("");
   const [id, setid] = useState("")
 
-  validate = () => {
+   const validate = () => {
     let isValid = true;
     if (!base64) {
       setdialogVisible(true)
@@ -37,15 +37,27 @@ export default function AddTicket({ navigation }) {
     return isValid;
 
   }
+  const getid = async() => {
+    await DeviceStorge.getToken("userid").then((userId) => { setid(userId);  })
+ 
+  }
+  
+useEffect(() => {
+getid();
+
+
+
+  }, [])
+
 
   const SendData = async () => {
 
   
 
     if (validate()) {
-      await DeviceStorge.getToken("userid").then((userId) => { setid(userId); parseInt(id) })
+     
       if (build) {
-        setaffect('building')
+       
         try {
           setIsLoading(true);
           console.log(JSON.stringify({description: Desc,reportBy: parseInt(id),affectedFacility: affect,agency:parseInt(key2),}))
@@ -89,7 +101,7 @@ export default function AddTicket({ navigation }) {
   
       }
       else {
-        setaffect('road')
+      
         setIsLoading(true);
         try {
 
@@ -480,14 +492,14 @@ console.log(JSON.stringify({description: Desc,reportBy: parseInt(id),affectedFac
           <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', right: wp('15%') }}>
             <TouchableOpacity style={{ opacity: 1, margin: 0, padding: 0, borderRadius: 25, width: wp('25%'), height: hp('7%'), left: wp('20%'), backgroundColor: colorb, }}
 
-              onPress={() => { Isstreet(false); Isbuild(true); changecolor1(); }}    >
+              onPress={() => { Isstreet(false); Isbuild(true); changecolor1();  setaffect('building'); }}    >
               <Text style={styles.textcam}>  مباني</Text>
             </TouchableOpacity>
             <TouchableOpacity style={{ opacity: 1, margin: 0, padding: 0, borderRadius: 25, width: wp('25%'), height: hp('7%'), right: wp('20%'), backgroundColor: colorst, }}
 
 
 
-              onPress={() => { Isstreet(true); Isbuild(false); changecolor2() }}    >
+              onPress={() => { Isstreet(true); Isbuild(false); changecolor2() ;setaffect('road');  }}    >
               <Text style={styles.textcam}>  شوارع</Text>
             </TouchableOpacity>
           </View>
