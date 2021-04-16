@@ -1,12 +1,8 @@
 
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
  import AppNavigator from './Navigation/AppNavigator'
-
-
-
-
 import MyDrawerNavigator from './Navigation/MyDrawerNavigator'
-import Map from './Screens/Map';
+
 
 
 

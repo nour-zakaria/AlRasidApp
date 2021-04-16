@@ -5,28 +5,30 @@ import OutlineInput from 'react-native-outline-input';
 import { KeyboardAvoidingScrollView } from 'react-native-keyboard-avoiding-scroll-view';
 import Spinner from 'react-native-loading-spinner-overlay';
 import { ConfirmDialog } from 'react-native-simple-dialogs';
-import DeviceStorge from '../Service/DeviceStorge'
-export default function Register({ navigation }) {
+   
+//1-get input that user enter  2-validation 3-request api
 
+
+export default function Register({ navigation }) {
+//data of textinput
   const [name, setName] = useState("");
   const [id, setID] = useState("");
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
   const [mobile, setMobile] = useState("");
+
+
   const [error, setEror] = useState({});
   const [isLoading, setIsLoading] = useState(false)
   const [dialogVisible, setdialogVisible] = useState(false)
 
 
 
-
+//validate all input
   const validateForm = () => {
     let isValid = true;
     const errors = {};
-    // const [error, setEror] = useState({});
-    var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-    var mobileformat = /^[0-9\b]+$/
-      ;
+    var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/ ;
 
     if (!name) {
       isValid = false;
@@ -63,10 +65,6 @@ export default function Register({ navigation }) {
     if (!mobile) {
       isValid = false;
       errors.mobile = "لم تدخل رقم  الهاتف بعد";}
-    // } else if (mobileformat) {
-    //   isValid = false;
-    //   errors.mobile = "رقم الهاتق يجب ان لايحتوي على حروف";
-    // }
 
     setEror(errors)
     return isValid;
@@ -78,14 +76,16 @@ export default function Register({ navigation }) {
 
 
 
-
+// send data to api to store it in database
 
   const reg = async () => {
     if (validateForm()){
-     
-
       try {
+    //start loading
         setIsLoading(true)
+        //Request
+        //destination ,typeOfrequest (POST)=> send data and store it , header(fixed) ,body(data)=>json object {Key , value}
+       //  body =>{'name' :'user' , 'idNumber': 1234567891 ,phoneNumber:'966456','email':'user@gmail.com','password' : '123456' }
         const response =  await  fetch("http://127.0.0.1:8889/users", {
           method: "POST",
           headers: {
@@ -101,16 +101,20 @@ export default function Register({ navigation }) {
 
           })
         })
+        //Response 
+        // fail :{'name': "This email or Id number is already exists in database"} ,,, sucess:{'result': 'record(s) inserted.'}
         const res = await response.json()
         console.log(res)
         console.log(res.name )
         if((res.name != 'This email or Id number is already exists in database')){
+          //user is not in DB and its inserted
           setName(''); setPass(''); setID(''); setMobile(''); setEmail('');
             setIsLoading(false)
             navigation.navigate('Login');
            // console.log("register succes", res);
         }
         else{
+          //user is eixst in DB
           setIsLoading(false)
           console.log(error)
           setName(''); setPass(''); setID(''); setMobile(''); setEmail('');

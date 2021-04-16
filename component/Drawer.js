@@ -9,7 +9,10 @@ import {
 } from "react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import DeviceStorge from '../Service/DeviceStorge'
+  
 
+
+// data that shown in menubar(drawer)
 const menuData = [
   { icon: require ('../Image/profile.png'), name: "حسابي", screenName: "Profile", key: 1 },
   { icon: require ('../Image/ticket.png'), name: "التذاكر", screenName: "TicketUser", key: 2 },
@@ -40,10 +43,14 @@ class Drawer extends Component {
   }
 }
 const logout = async ()=> {
+
+   //logout function => delete all data that store in local storage in app (userid , idnunmber , username)
   await DeviceStorge.deleteToken("userid").then((data) => { console.log(data) })  
         await DeviceStorge.deleteToken("idnumber").then((data) => { console.log(data) })  
         await DeviceStorge.deleteToken("username").then((data) => { console.log(data) }) 
 }
+
+// for each item (icon , name , operation when user press)
 const DrawerItem = ({ navigation, icon, name, screenName }) => (
   <TouchableOpacity
     style={styles.menuItem}
@@ -52,6 +59,7 @@ const DrawerItem = ({ navigation, icon, name, screenName }) => (
       navigation.navigate('AppNavigator')
     }
     else{
+      // move to screen
       navigation.navigate(`${screenName}`, { isStatusBarHidden: false })
     }
      
