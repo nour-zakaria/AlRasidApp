@@ -1,13 +1,9 @@
 
 
 import {createDrawerNavigator} from 'react-navigation-drawer'
-
-
-import Drawer from '../component/Drawer'
 import { createStackNavigator } from "react-navigation-stack";
 
-
-
+import Drawer from '../component/Drawer'
 import Map from '../Screens/Map'
  import Map2 from '../Screens/Map2'
 import AddTicket from '../Screens/AddTicket'
@@ -73,30 +69,19 @@ const FirstActivity_StackNavigator = createStackNavigator({
   
   
 });
-// const SecondActivity_StackNavigator = createStackNavigator({
-//   Profile: {
-//     screen: Profile,
-//     navigationOptions: {
-//       headerShown:false
-//     }, }
 
-  
-// });
 
 const MyDrawerNavigator = createDrawerNavigator(
   {
-    //Drawer Optons and indexing
+    
 
     NavScreen1: {
       screen: FirstActivity_StackNavigator,
      
     
-    //  headerShown:false
-      },
-//     NavScreen2: {
-//       screen: SecondActivity_StackNavigator,
-// },
    
+      },
+
 
    
    },

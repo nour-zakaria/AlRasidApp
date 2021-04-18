@@ -25,14 +25,13 @@ export default function TicketInfo({ navigation }) {
     useEffect(() => {
        LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
      LogBox.ignoreAllLogs();
-   // await DeviceStorge.getToken("location").then((loc) => { setLocation(loc)  ; console.log(loc + "its location")})
-
-
+   
         const data1 = navigation.getParam("dest", 'NO-User'); 
        const data2 = navigation.getParam("priority", 'NO-User'); 
        const data3 = navigation.getParam("status", 'NO-User'); 
        const data4 = navigation.getParam("Description", 'NO-User'); 
        const data5 = navigation.getParam("backgound", 'NO-User'); 
+       //idTicket
        const data6 = navigation.getParam("id", 'NO-User'); 
 
        isforword(data1)
@@ -40,7 +39,6 @@ export default function TicketInfo({ navigation }) {
      setstatus(data3)
       setdescription(data4)
      setcolor(data5)
-    //  setLocation(location)
     setidTicket(data6)
 
 
@@ -52,20 +50,23 @@ export default function TicketInfo({ navigation }) {
         await DeviceStorge.getToken("userid").then((userId) => { setid(userId); console.log(id + "its user id") })
         setIsLoading(true)
         try {
+            //Request = {idTicket : 8 ,description  :'وصف', reportBy :'1' ,agency :''}
             const requestOptions = {
+                //request is update
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     id: parseInt(idTicket),
                     description: des,
                     reportBy: parseInt(id),
-                    agency: 1
+                    agency: forword
                 })
             };
             fetch('http://127.0.0.1:8889/updateTicket', requestOptions)
             .then(response => response.json())
             .then(data => {
-                if(data.result != "No ticket with this Id"){  setIsLoading(false);IsDone(true) ;console.log(data);}
+                if(data.result != "No ticket with this Id")
+                {  setIsLoading(false);IsDone(true) ;console.log(data);}
                 else { setIsLoading(false);IsError(true) ;console.log(data);}
                  })
 
@@ -100,7 +101,8 @@ console.log(idTicket)
                
                 .then(response => response.json())
                 .then(data => {
-                    if(data.result != "No ticket with this Id"){  setIsLoading(false);IsDone(true) ;console.log(data); navigation.navigate('TicketUser');}
+                    if(data.result != "No ticket with this Id")
+                    {  setIsLoading(false);IsDone(true) ;console.log(data); navigation.navigate('TicketUser');}
                     else { setIsLoading(false);IsError(true) ;console.log(data);}
                      })
  

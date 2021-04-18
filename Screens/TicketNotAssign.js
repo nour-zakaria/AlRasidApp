@@ -2,7 +2,7 @@ import React, { useState ,useEffect } from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground, ScrollView, TextInput } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { KeyboardAvoidingScrollView } from 'react-native-keyboard-avoiding-scroll-view';
-import DeviceStorge from '../Service/DeviceStorge'
+
 export default function TicketNotAssign ({ navigation }) {
 
     const [forword, isforword] = useState('');

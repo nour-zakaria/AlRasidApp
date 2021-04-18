@@ -1,4 +1,4 @@
-import React, { useState, useEffect , useCallback} from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { View, Text, StyleSheet, Image, TouchableOpacity, ImageBackground, ScrollView, FlatList } from 'react-native'
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -14,8 +14,10 @@ export default function TicketUser({ navigation }) {
     const [id, setid] = useState("")
 
     const gettStatus = () => {
-        setValue("2")
+      
+        //count of status=مرسلة
         var count = 0;
+        //count of status=مستبعدة
         var count2 = 0;
         let index = [];
         for (var i = 0; i < List.length; i++) {
@@ -50,36 +52,36 @@ export default function TicketUser({ navigation }) {
 
     }
 
-    const   getTicket =   useCallback( async ()=>{
-    // const getTicket = async () => {
-        //const data = { "result": [[8, "desc", "11 April, 2021", "High", 2], [9, "yestitss", "11 April, 2021", "High", 2], [10, "desc1hhhh", "11 April, 2021", "High", 1], [2, "yestitss", "11 April, 2021", "High", 4], [5, "yestitss", "11 April, 2021", "High", 5], [4, "yestitss", "11 April, 2021", "High", 1], [6, "yestitss", "11 April, 2021", "High", 1]] }
-console.log(`${id}`)
-
+  
+     const getTicket = async () => {
+        console.log(`${id}`)
+//get id from DB (Async Storage)
         await DeviceStorge.getToken("userid").then((userId) => { setid(userId); console.log(id) })
 
         try {
-          //  setIsLoading(true)
+             setIsLoading(true)
+        //Response = { "name": [[8, "desc", "11 April, 2021", "High", 2], [9, "yestitss", "11 April, 2021", "High", 2], [10, "desc1hhhh", "11 April, 2021", "High", 1], [2, "yestitss", "11 April, 2021", "High", 4], [5, "yestitss", "11 April, 2021", "High", 5], [4, "yestitss", "11 April, 2021", "High", 1], [6, "yestitss", "11 April, 2021", "High", 1]] }
 
-                       await fetch(`http://127.0.0.1:8889/convert?id=${id}`,{
-                             method: 'GET',
-                           
-                            headers: {
+            await fetch(`http://127.0.0.1:8889/convert?id=${id}`, {
+                method: 'GET',
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                 setIsLoading(false)
+                    console.log(data)
+                    SetList(data.name);
 
-                                Accept: 'application/json',
-                             'Content-Type': 'application/json'
-                             }
-                     })
-                        .then(response => response.json())
-                        .then(data => {
-                          //  setIsLoading(false)
-            console.log(data)
-            SetList(data.name);
-            setValue("1")
-           
 
-                              
-                        })
-                       .catch(err => console.error(err));
+
+
+                })
+                .catch(err => {
+                    setIsLoading(false);
+                    console.error(err)});
 
         }
 
@@ -92,15 +94,16 @@ console.log(`${id}`)
 
 
 
-    },[List])
-  
-    useEffect(() => { 
-          console.log('mounted or updated');
-    getTicket();
-    gettStatus();}
-   , [List]);
- 
-  
+    }
+
+    useEffect(() => {
+        console.log('mounted or updated');
+        getTicket();
+        gettStatus();
+    }
+        , [List]);
+
+
 
 
 
@@ -108,7 +111,7 @@ console.log(`${id}`)
 
 
         <View style={styles.container}>
-       <Spinner
+            <Spinner
                 visible={isLoading}
                 textContent={'Loading...'}
                 textStyle={styles.spinnerTextStyle}
@@ -186,7 +189,7 @@ console.log(`${id}`)
                     style={styles.flatstyle}
                     data={List}
 
-                  //  keyExtractor={(item, index) => console.log(index)}
+                    //  keyExtractor={(item, index) => console.log(index)}
                     renderItem={({ item }) => {
                         let state = '';
                         let forward = '';
@@ -199,10 +202,10 @@ console.log(`${id}`)
                         else if (item[4] == 5) { state = ' مستبعدة'; backgound = 'red' }
 
                         if (item[5] == 1) { forward = 'وزارة التعليم' }
-                        else if (item[5] == 2) { forward = ' وزارة الصحة';}
-                        else if (item[5] == 3) { forward = ' البلدية';  }
-                        else if (item[5] == 4) {  forward = ' الهيئة العامة للسياحة والتراث '; }
-                      
+                        else if (item[5] == 2) { forward = ' وزارة الصحة'; }
+                        else if (item[5] == 3) { forward = ' البلدية'; }
+                        else if (item[5] == 4) { forward = ' الهيئة العامة  '; }
+
 
 
                         return (
@@ -213,34 +216,23 @@ console.log(`${id}`)
                                     onPress={() => {
                                         if (item[4] == 5) {
                                             navigation.navigate('TicketNotAssign', {
-                                                priority: item[3],
-                                                status: state,
-                                                location: 'yses',
                                                 Description: item[1],
-                                                backgound: backgound,
-                                                 dest :forward
+                                                dest: forward
 
                                             })
                                             console.log('yess')
                                         }
                                         else if (item[4] == 4) {
-                                            navigation.navigate('TicketDone', {
-                                                priority: item[3],
-                                                status: state,
-                                                backgound: backgound
-
-
-                                            })
+                                            navigation.navigate('TicketDone')
                                         }
                                         else {
                                             navigation.navigate('TicketInfo', {
                                                 priority: item[3],
                                                 status: state,
-                                                location: 'yses',
                                                 Description: item[1],
-                                                // dest :forward,
-                                                backgound: backgound ,
-                                                id : item[0]
+                                                 dest :forward,
+                                                backgound: backgound,
+                                                id: item[0]
 
                                             })
                                             console.log('noo')
@@ -319,7 +311,7 @@ const styles = StyleSheet.create({
 
 
     },
-  
+
     back: {
 
         height: hp("4%"),

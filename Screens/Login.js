@@ -64,27 +64,45 @@ export default function Login({ navigation }) {
 
                 })
             })
+// Response => fail = {result : []} ,sucess = {result : [[1,'user' ,1234567891,user@gmai.com ,1234566]]}
             const res = await response.json()
-            console.log("upload succes", res);
-            setPass(''); setID('');
-                    console.log("upload succes", res.result[0][0]);
-                    await DeviceStorge.storeToken("userid" ,res.result[0][0])
-                    await DeviceStorge.storeToken("idnumber" , Number(res.result[0][2]))
-                    await DeviceStorge.storeToken("username" ,res.result[0][1])
-                    
-                    console.log("upload succes", res);
-                    setIsLoading(false)
-                    navigation.navigate('Map');
+            if(res.result != null){
+                // user is exist in DB
+                console.log("upload succes", res);
+                         setPass(''); setID('');
+                         //Store User Info In Local DB(Async Storage)
+                         //res.result = [[1,'user' ,1234567891,user@gmai.com ,1234566]]
+                         //res.result[0] =[1,'user' ,1234567891,user@gmai.com ,1234566]
+                         //res.result[0][0]
+                        console.log("upload succes", res.result[0][0]);
+                        await DeviceStorge.storeToken("userid" ,res.result[0][0])
+                        await DeviceStorge.storeToken("idnumber" , Number(res.result[0][2]))
+                        await DeviceStorge.storeToken("username" ,res.result[0][1])
+                        
+                        console.log("upload succes", res);
+                        setIsLoading(false)
+                        navigation.navigate('Map');
+            }
+            else {
+                //if uses doesnt exist in DB
+                setIsLoading(false)
+                console.log(error);
+                setPass(''); setID('');
+                setdialogVisible(true)
+            
+
+            }
+           
                   
                    
                
 
         } catch (error) {
+            setIsLoading(false)
             console.log(error);
             setPass(''); setID('');
-
             setdialogVisible(true)
-            setIsLoading(false)
+          
         }
     }
        

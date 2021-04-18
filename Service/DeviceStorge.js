@@ -1,7 +1,11 @@
 import AsyncStorage from '@react-native-community/async-storage';
+    
+
+// Local DataBase
+
 
 const DeviceStorge = {
-
+// getToken('username')
    getToken: async (key) => {
         try {
              let result =await AsyncStorage.getItem(key);
@@ -13,7 +17,8 @@ const DeviceStorge = {
              throw e;
         } 
     },
-
+// storeToken('username', user) , ('idnumber',1234567891)
+ 
     storeToken: async (key,value) => {
 
         try {
@@ -25,6 +30,7 @@ const DeviceStorge = {
             throw e;
         }
     } ,
+    //deleteToken('usernmae')
     deleteToken: async (key) => {
    
         try {

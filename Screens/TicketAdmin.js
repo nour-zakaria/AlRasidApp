@@ -100,7 +100,7 @@ export default function TicketAdmin({ navigation }) {
         gettStatus();
 
 
-    }, [])
+    }, [List])
 
 
     return (
@@ -184,12 +184,10 @@ export default function TicketAdmin({ navigation }) {
         else if (item[4] == 4) { state = 'تم الاصلاح '; backgound = '#0BD38A' }
         else if (item[4] == 5) { state = ' مستبعدة'; backgound = 'red' }
 
-        if (item[5] == 1) { forward = 'قيد الانتظار' }
-        else if (item[5] == 2) { forward = ' مسندة';}
-        else if (item[5] == 3) { forward = 'قيد التنفيذ';  }
-        else if (item[5] == 4) {  forward = 'تم الاصلاح '; }
-        else if (item[5] == 5) {forward = ' مستبعدة';}
-        else if (item[5] == 5) {forward = ' مستبعدة';}
+        if (item[5] == 1) { forward = 'وزارة التعليم' }
+        else if (item[5] == 2) { forward = ' وزارة الصحة';}
+        else if (item[5] == 3) { forward = ' البلدية';  }
+        else if (item[5] == 4) {  forward = ' الهيئة العامة  '; }
 
 
         return (
@@ -205,7 +203,7 @@ export default function TicketAdmin({ navigation }) {
                             <View style={{ left: wp('20%') }}>
                                 <Text style={{ fontSize: wp('4%'), fontFamily: 'Cairo-Bold', left: wp('5%') }}>رقم التذكرة : {item[0]} </Text>
                                 <Text style={{ fontSize: wp('3.5%'), fontFamily: 'Cairo-Regular', left: wp('3%') }}> {item[2]}</Text>
-                                <Text style={{ fontSize: wp('3.5%'), fontFamily: 'Cairo-Regular', left: wp('4%') }}>الجهة :{item[4]}</Text>
+                                <Text style={{ fontSize: wp('3.5%'), fontFamily: 'Cairo-Regular', left: wp('4%') }}>الجهة :{forward}</Text>
                             </View>
 
                             <View>

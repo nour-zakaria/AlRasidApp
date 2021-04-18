@@ -18,20 +18,6 @@ export default function Map({ navigation }) {
     longitudeDelta: 0.009
   });
 
-
-  const getAddress =()=>{
-    //function to get address using current lat and lng
-    fetch("https://maps.googleapis.com/maps/api/geocode/json?address=" + region.latitude+"," +region.longitude +"&key=" + "AIzaSyCGb9T-Taw4gdhkRMCvtIm1MsxHBeVWrHs").
-       then((response) => response.json())
-       .then((responseJson) => {
-      console.log("ADDRESS GEOCODE is BACK!! =>kk " +
-    JSON.stringify(responseJson));
-     
-       setadress(JSON.stringify(responseJson.results[0].formatted_address).replace(/"/g, ""))
-        });
-    }
-
-
   useEffect(() => {
   
 LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
@@ -42,12 +28,6 @@ LogBox.ignoreAllLogs();
     
    <View style={styles.container}>
        <MapView
-  // ref={mapRef}
-//   showsUserLocation={true}
-//  followsUserLocation={true}
-//  showsMyLocationButton={true}
-//   showsCompass={true}
-//    showsTraffic={true}
        style={styles.map}
        region={region}
        onRegionChangeComplete={region => {setRegion(region) ; getAddress(); console.log('jjj'); console.log(address +"kkk")}}
@@ -116,42 +96,6 @@ LogBox.ignoreAllLogs();
         language: 'en',
         types: '(cities)',
       }}
-
-      // onPress={(data, details = null) => {
-      //   console.log(data + "assss")
-      // }}
-      //          getDefaultValue={() => {
-      //            return ''; // text input default value
-      //          }}
-      //          query={{
-                
-      //           key: 'AIzaSyCGb9T-Taw4gdhkRMCvtIm1MsxHBeVWrHs',
-      //            language: 'en', // language of the results
-      //            types: '(cities)', // default: 'geocode'
-      //          }}
-      //          styles={{
-      //            description: {
-      //              fontWeight: 'bold',
-      //            },
-      //            predefinedPlacesDescription: {
-      //              color: '#1faadb',
-      //            },
-      //          }}
-      //          enablePoweredByContainer={true}
-               
-      //          nearbyPlacesAPI="GoogleReverseGeocoding" 
-              
-      //          GooglePlacesSearchQuery={{
-                
-      //            rankby: 'distance',
-      //            types: 'food',
-      //          }}
-      //          filterReverseGeocodingByTypes={[
-      //            'locality',
-      //            'administrative_area_level_3',
-      //          ]} 
-               
-      //          debounce={200}
     />
  
     

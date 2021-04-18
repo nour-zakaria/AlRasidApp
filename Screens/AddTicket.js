@@ -59,9 +59,10 @@ getid();
       if (build) {
        
         try {
+          //when user send Ticket (Buliding)
           setIsLoading(true);
           console.log(JSON.stringify({description: Desc,reportBy: parseInt(id),affectedFacility: affect,agency:parseInt(key2),}))
-
+//Request => {'description': 'الوصف' ,'image' :'base64="ggggggggasddeuwi82' ,reportBy :'userid' , 'affectedFacility' : 'Buliding', agency: 'مسجد' ,buldingType: 'وزارة التعليم'}
           fetch("http://127.0.0.1:8889/predictBuilding", {
             method: "POST",
             headers: {
@@ -104,8 +105,11 @@ getid();
       
         setIsLoading(true);
         try {
+//when user send Ticket (Road)
 
 console.log(JSON.stringify({description: Desc,reportBy: parseInt(id),affectedFacility: affect,agency:parseInt(key2),}))
+//Request => {'description': 'الوصف' ,'image' :'base64="ggggggggasddeuwi82' ,reportBy :'userid' , 'affectedFacility' : 'road', agency: 'مسجد' ,}
+
           fetch("http://127.0.0.1:8889/predictRoad", {
             method: "POST",
             headers: {
@@ -166,11 +170,12 @@ console.log(JSON.stringify({description: Desc,reportBy: parseInt(id),affectedFac
 
 
   const cameraLaunch = () => {
+    // pick image from camera
+    //Image is send to api as base46(char)
     let options = {
       mediaType: 'photo',
       noData: true, // IMPORTANT TO MAKE IT FASTER
       cameraRoll: false,
-
       includeBase64: true,
       maxWidth: 200,
       maxHeight: 200,
@@ -180,6 +185,7 @@ console.log(JSON.stringify({description: Desc,reportBy: parseInt(id),affectedFac
         path: null,
       },
     };
+    //turn on camera
     ImagePicker.launchCamera(options, (res) => {
      // console.log('Response = ', res);
 
@@ -202,6 +208,7 @@ console.log(JSON.stringify({description: Desc,reportBy: parseInt(id),affectedFac
   }
 
   const imageGalleryLaunch = () => {
+    //pick image from gallery
     let options = {
       mediaType: 'photo',
       noData: true, // IMPORTANT TO MAKE IT FASTER

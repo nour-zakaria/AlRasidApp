@@ -18,12 +18,19 @@ export default class First extends React.Component {
       id :''
     };
   }
+
+  //when user enter app for second time
   async AssignedUser () {
+    
   await DeviceStorge.getToken("userid").then((userId) => { this.setState({id:userId}) ;console.log(this.state.id) })
-if(this.state.id != null){
+
+if(this.state.id != null)
+{
+  //user is exist =>(sign up +login)
   this.props.navigation.navigate('Map')
 }
 else {
+  //user is enter in first time
   this.props.navigation.navigate('Login')
 }
 }

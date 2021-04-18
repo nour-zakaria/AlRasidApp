@@ -25,9 +25,9 @@ export default function Profile({ navigation }) {
    const validateForm = () => {
         let isValid = true;
         const errors = {};
-     // const [error, setEror] = useState({});
+    
         var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-      var mobileformat=   /^[0-9\b]+$/
+   
         ;
     
         if (!name) {
@@ -61,7 +61,7 @@ export default function Profile({ navigation }) {
    
     
      const getname = async() => {
-      await DeviceStorge.getToken("username").then((UserName) => { setusername(UserName); console.log(UserName + "its user id") })
+      await DeviceStorge.getToken("username").then((UserName) => { setusername(UserName); console.log(UserName + "its user name") })
       await DeviceStorge.getToken("idnumber").then((userId) => { setID(userId); console.log(id +"ddd" ) })
     }
     
